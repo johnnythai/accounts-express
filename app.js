@@ -15,7 +15,8 @@ app.get('/', (req, res) => {
 
 // Access token
 app.get('/access-token', (req, res) => {
-	fetchAccessToken()
+	const token = fetchAccessToken()
+	console.log(token)
 	res.send('token')
 });
 
@@ -36,7 +37,7 @@ const fetchAccessToken = () => {
 	fetch(apiUrl, {
 		method: 'POST',
 		headers: {
-			'Authorization': 'Basic ${base64Credentials}',
+			'Authorization': `Basic ${base64Credentials}`,
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
 		body: requestBody,
