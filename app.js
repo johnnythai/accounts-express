@@ -30,6 +30,8 @@ app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
 });
 
+
+
 const fetchAccessToken = async () => {
 	const apiUrl = 'https://api-gw-uat.fisglobal.com/token';
 
