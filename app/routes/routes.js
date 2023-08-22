@@ -15,11 +15,11 @@ router.get('/authorization/:token', async (req, res) => {
 
 	try {
 		if (requestedToken === 'fis') {
-			const token = await fetchFisToken(requestedToken);
+			const token = await fetchFisToken(req);
 			console.log(`${requestedToken} token:`, token);
 			res.status(200).send(token);
 		} else if (requestedToken === 'horizon') {
-			const token = await fetchHorizonToken(requestedToken);
+			const token = await fetchHorizonToken(req);
 			console.log(`${requestedToken} token:`, token);
 			res.status(200).send(token);
 		}
