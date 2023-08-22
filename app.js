@@ -2,28 +2,13 @@ const express = require('express');
 const app = express();
 const port = 4001;
 
-require('dotenv').config();
-const CONSUMER_KEY = process.env.CONSUMER_KEY
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET
+const router = require('./app/routes/routes');
 
-const jwt = require('jsonwebtoken');
+// Home
+app.use('/', router);
 
-// Define a basic route
-app.get('/', (req, res) => {
-	res.status(200).send('accounts-express app for FIS HORIZON API')
-});
-
-// Access token
-app.get('/access-token', async (req, res) => {
-	try {
-		const token = await fetchAccessToken();
-		console.log('TOKEN:', token);
-		res.status(200).send(token)
-	} catch (error) {
-		console.error('Access token error:', error);
-		res.status(500).send('Error fetching access token');
-	}
-});
+// Authorization
+app.use('/authorization/:token', router);
 
 // Start the server
 app.listen(port, () => {
@@ -32,6 +17,9 @@ app.listen(port, () => {
 
 
 
+
+
+/*
 const fetchAccessToken = async () => {
 	const apiUrl = 'https://api-gw-uat.fisglobal.com/token';
 
@@ -59,3 +47,25 @@ const fetchAccessToken = async () => {
 		throw error;
 	}
 };
+
+
+const fetchHorizonToken = async () => {
+	const apiUrl = 'https://api-gw-uat.fisglobal.com/rest/horizon/authorization/v2/authorization'
+
+	const id = uuidv4()
+	console.log('uuid:', id)
+
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'POST',
+			headers: {
+				'accept': 'application/json',
+				'organization-id': ORGANIZATION_ID,
+				'uuid': id,
+				'source-id': SOURCE_ID,
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${access_token}`,
+			},
+			body: requestBody,
+		})
+*/
