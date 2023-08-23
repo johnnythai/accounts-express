@@ -1,8 +1,5 @@
 .swp
-
 .env
 
 node_modules/
-
-.swp
-
+built/
