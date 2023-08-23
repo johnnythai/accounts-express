@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router()
 
-const { fetchFisToken, fetchHorizonToken } = require('../controllers/fetch')
+const { fetchFisToken, fetchHorizonToken } = require('../controllers/fetch.ts')
 
 // Home 
 router.get('/', (req, res) => {
