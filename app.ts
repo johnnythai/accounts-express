@@ -5,7 +5,7 @@ const port = 4001;
 const morgan = require('morgan');
 app.use(morgan('common'));
 
-const router = require('./app/routes/routes.ts');
+const router = require('./app/routes/routes');
 
 // Home
 app.use('/', router);
