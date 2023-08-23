@@ -4,7 +4,7 @@ accounts app for FIS HORIZON API
 
 |Authorization Tokens     |                     |
 |-------------------------|---------------------|
-|GET '/authorization/fis' | Return FIS JWT token|
-|GET '/authorization/horizon'| Return Horizon JWT token|
+|GET '/authorization/fis' | Return FIS JWT|
+|GET '/authorization/horizon'| Return Horizon JWT|
 
 
