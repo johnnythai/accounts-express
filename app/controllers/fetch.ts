@@ -9,16 +9,16 @@ const ORGANIZATION_ID = process.env.ORGANIZATION_ID;
 const SOURCE_ID = process.env.SOURCE_ID;
 
 
-const fetchApi = async (apiUrl, options) => {
+const fetchApi = async (apiUrl: string, options?: {requestBody: {}}) => {
 	try {
 		const response = await fetch(apiUrl, options);
 		return(response);
 	} catch {
-		console.error('Error', error);
+		console.error('Error', Error);
 	};
 };
 
-const fetchFisToken = async (req) => {
+const fetchFisToken = async (req: {}) => {
 	const apiUrl = 'https://api-gw-uat.fisglobal.com/token'; 
 	const base64Creds = Buffer.from(`${CONSUMER_KEY}:${CONSUMER_SECRET}`).toString('base64');
 	const requestBody = 'grant_type=client_credentials';
@@ -37,7 +37,7 @@ const fetchFisToken = async (req) => {
 	return(token.access_token);
 };
 
-const fetchHorizonToken = async (req) => {
+const fetchHorizonToken = async (req: {fisToken: string, body:{}}) => {
 	const apiUrl = 'https://api-gw-uat.fisglobal.com/rest/horizon/authorization/v2/authorization';
 	const fisToken = req.fisToken;
 	const requestBody = req.body
