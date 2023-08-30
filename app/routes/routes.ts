@@ -8,6 +8,9 @@ router.get('/', (req: any, res: any) => {
 	res.status(200).send('accounts-express app for FIS HORIZON API');
 });
 
+// Authentication
+
+
 // Authorization tokens
 router.get('/authorization/:token', async (req, res) => {
 	console.log('req object:', req);
