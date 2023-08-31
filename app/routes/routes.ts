@@ -10,19 +10,26 @@ router.use(cookiesMiddleware());
 
 // Check for fisToken before requesting horizonToken
 router.use('/authorization/horizon', (req, res) => {
+	console.log('checking for fisToken...');
 	const fisToken = req.universalCookies.get('fisToken');
 	if (!fisToken) {
-		return res.status(401)
+		return res.status(401).end();
 	};
+	
+	next();
 });
 
 // Check for horizonToken before making requests to HORIZON API
 horizonRouter.use((req, res) => {
+	console.log('checking for horizonToken');
 	const horizonToken = req.universalCookies.get('horizonToken');
 	if (!horizonToken) {
-		return res.status(401)
+		return res.status(401).end();
 	};
+
+	next();
 });
+
 
 // Horizon Router
 router.use('/horizon', horizonRouter);
