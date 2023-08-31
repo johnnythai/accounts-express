@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router()
+const horizonRouter = require('./horizonRoutes');
 const cookiesMiddleware = require('universal-cookie-express');
 
 const { fetchFisToken, fetchHorizonToken } = require('../controllers/fetch')
@@ -9,13 +10,22 @@ router.use(cookiesMiddleware());
 
 // Check for fisToken before requesting horizonToken
 router.use('/authorization/horizon', (req, res) => {
-	req.universalCookies.get('fisToken');
+	const fisToken = req.universalCookies.get('fisToken');
+	if (!fisToken) {
+		return res.status(401)
+	};
 });
 
 // Check for horizonToken before making requests to HORIZON API
-router.use('', (req, res) => {
-	req.universalCookies.get('horizonToken');
+horizonRouter.use((req, res) => {
+	const horizonToken = req.universalCookies.get('horizonToken');
+	if (!horizonToken) {
+		return res.status(401)
+	};
 });
+
+// Horizon Router
+router.use('/horizon', horizonRouter);
 
 // Home 
 router.get('/', (req: any, res: any) => {

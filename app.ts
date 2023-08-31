@@ -6,6 +6,7 @@ const morgan = require('morgan');
 app.use(morgan('common'));
 
 const router = require('./app/routes/routes');
+const horizonRouter = require('./app/routes/horizonRoutes'); 
 // const db = require('./db');
 // const dbConnection = db();
 
