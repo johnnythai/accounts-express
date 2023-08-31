@@ -1,7 +1,21 @@
 const express = require('express');
 const router = express.Router()
+const cookiesMiddleware = require('universal-cookie-express');
 
 const { fetchFisToken, fetchHorizonToken } = require('../controllers/fetch')
+
+// Middleware
+router.use(cookiesMiddleware());
+
+// Check for fisToken before requesting horizonToken
+router.use('/authorization/horizon', (req, res) => {
+	req.universalCookies.get('fisToken');
+});
+
+// Check for horizonToken before making requests to HORIZON API
+router.use('', (req, res) => {
+	req.universalCookies.get('horizonToken');
+});
 
 // Home 
 router.get('/', (req: any, res: any) => {
