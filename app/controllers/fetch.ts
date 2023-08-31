@@ -1,6 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 
 require('dotenv').config();
+const FIS_API_URL = process.env.FIS_API_URL;
+const HORIZON_API_URL = process.env.HORIZON_API_URL;
 const CONSUMER_KEY = process.env.CONSUMER_KEY;
 const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 const ORGANIZATION_ID = process.env.ORGANIZATION_ID;
@@ -28,7 +30,7 @@ const fetchApi = async (apiUrl: string, options?: {}) => {
 };
 
 const fetchFisToken = async (req: {}) => {
-	const apiUrl = 'https://api-gw-uat.fisglobal.com/token'; 
+	const apiUrl = FIS_API_URL; 
 	const base64Creds = Buffer.from(`${CONSUMER_KEY}:${CONSUMER_SECRET}`).toString('base64');
 	const requestBody = 'grant_type=client_credentials';
 
@@ -47,13 +49,7 @@ const fetchFisToken = async (req: {}) => {
 };
 
 const fetchHorizonToken = async (req: {fisToken: string, body:{userId: string, userSecret: string}}) => {
-	const apiUrl = 'https://api-gw-uat.fisglobal.com/rest/horizon/authorization/v2/authorization';
-	const fisTemp = 'eyJ4NXQiOiJOemRrWkRjMU9XWmtPVFE0WTJNeE1XUXdOR013WkRjMVkyUXlaakEyWXpjMVl6TTROalZtTlRSaE16SXdZelV3TURVMU9UY3paVFE1T1dFMk9USm1OZyIsImtpZCI6Ik56ZGtaRGMxT1daa09UUTRZMk14TVdRd05HTXdaRGMxWTJReVpqQTJZemMxWXpNNE5qVm1OVFJoTXpJd1l6VXdNRFUxT1RjelpUUTVPV0UyT1RKbU5nX1JTMjU2IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJqb2hubnl0aGFpIiwiYXV0IjoiQVBQTElDQVRJT04iLCJhdWQiOiJMSEdLbndXTGxXSUtlTENNZEJwY0FkSlNSOXNhIiwibmJmIjoxNjkzNTEzNDM2LCJhenAiOiJMSEdLbndXTGxXSUtlTENNZEJwY0FkSlNSOXNhIiwic2NvcGUiOiJkZWZhdWx0IiwiaXNzIjoiaHR0cHM6XC9cLzEwMC43Mi4zNS4yNTo5NDQzXC9vYXV0aDJcL3Rva2VuIiwiZXhwIjoxNjkzNTE3MDM2LCJpYXQiOjE2OTM1MTM0MzYsImp0aSI6IjFlOGNlYTY0LTI5ZDgtNDQ3Zi1iMmEyLWYzY2Y2MTVlYzNjMyJ9.LDhbwHBdEMoHTbWVo49QwC8XhsCzjd9UX0BBqvWmQOhxWmEopUrodiKIXPGXdnPLy-sL6ZuwGIB48HzJDPwLynW7gZ3To35ZAgclN8zMy8FSDa9kpReeNNOKd5lolmF4m4PwJNSSOQD69gaiYFXtSZoC3lcOWqi3H1jez-Hk07JraT_Pm911-rWXKRruo84W7xbRUC9_BVnLzScAoH9UdBbOFmZJCw8USjHcnlqrwHO6GEZPzr1sfZKsW7qVA65txNwRkkihtT5F4cUbpbFnI8bD0yc3jXJuXYWCR5MYGebgiDqr8mRd3aFEMQiQJE0F4iEBcIJFVckNsbNsVOITeg'
-	const body = {
-		'userId': FIS_USER_ID,
-		'userSecret': FIS_USER_SECRET 
-	}
-	const requestBody = JSON.stringify(body);
+	const apiUrl = HORIZON_API_URL;
 
 	const options = {
 		method: 'PUT',
@@ -61,15 +57,17 @@ const fetchHorizonToken = async (req: {fisToken: string, body:{userId: string, u
 			'organization-id': ORGANIZATION_ID,
 			'uuid': uuidv4(),
 			'source-id': SOURCE_ID,
-			'Authorization': `Bearer ${fisTemp}`,
+			'Authorization': `Bearer ${req.fisToken}`,
 			'Content-Type': 'application/json'
 		},
-		body: requestBody,
+		body: JSON.stringify({
+			'userId': FIS_USER_ID,
+			'userSecret': FIS_USER_SECRET
+		}),
 	};
 
 	const auth = await fetchApi(apiUrl, options);
 	const token = await auth.json();
-	console.log('TOKEN_______________________', token.jwt);
 	return(token.jwt);
 };
 

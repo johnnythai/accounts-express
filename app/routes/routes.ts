@@ -19,16 +19,14 @@ router.get('/authorization/:token', async (req, res) => {
 	try {
 		if (requestedToken === 'fis') {
 			const token = await fetchFisToken(req);
-			console.log(`${requestedToken} token:`, token);
 			res.status(200).send(token);
 		} else if (requestedToken === 'horizon') {
 			const token = await fetchHorizonToken(req);
-			// console.log(`${requestedToken} token:`, token);
 			res.status(200).send(token);
 		}
 	} catch (error) {
 		console.error('Authorization error:', error);
-		res.status(500).send('Error fetching token');	
+		res.status(500).send('Authorization Error');	
 	};
 });
 
