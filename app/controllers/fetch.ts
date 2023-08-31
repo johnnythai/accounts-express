@@ -11,11 +11,20 @@ const FIS_USER_SECRET = process.env.FIS_USER_SECRET;
 
 const fetchApi = async (apiUrl: string, options?: {}) => {
 	try {
-		const response = await fetch(apiUrl, options);
-		return(response);
-	} catch {
-		console.error('Error', Error);
-	};
+		console.log(`Fetching ${apiUrl} with options: ${JSON.stringify(options)}`);
+		const response = await fetch(apiUrl, options);			    
+		console.log(`Response received. Status: ${response.status}, Status Text: ${response.statusText}`);
+	
+		if (!response.ok) {
+			const text = await response.text();
+			console.error(`Fetch failed: ${response.status}, ${text}`);
+			throw new Error(`Fetch failed: ${response.status}`);
+		}	
+
+		return response;
+	} catch (error) {
+		console.error('ERROR', error)
+	}
 };
 
 const fetchFisToken = async (req: {}) => {
@@ -24,7 +33,7 @@ const fetchFisToken = async (req: {}) => {
 	const requestBody = 'grant_type=client_credentials';
 
 	const options = {
-		method: 'PUT',
+		method: 'POST',
 		headers: {
 			'Authorization': `Basic ${base64Creds}`,
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -39,7 +48,12 @@ const fetchFisToken = async (req: {}) => {
 
 const fetchHorizonToken = async (req: {fisToken: string, body:{userId: string, userSecret: string}}) => {
 	const apiUrl = 'https://api-gw-uat.fisglobal.com/rest/horizon/authorization/v2/authorization';
-	const fisTemp = 'eyJ4NXQiOiJOemRrWkRjMU9XWmtPVFE0WTJNeE1XUXdOR013WkRjMVkyUXlaakEyWXpjMVl6TTROalZtTlRSaE16SXdZelV3TURVMU9UY3paVFE1T1dFMk9USm1OZyIsImtpZCI6Ik56ZGtaRGMxT1daa09UUTRZMk14TVdRd05HTXdaRGMxWTJReVpqQTJZemMxWXpNNE5qVm1OVFJoTXpJd1l6VXdNRFUxT1RjelpUUTVPV0UyT1RKbU5nX1JTMjU2IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJqb2hubnl0aGFpIiwiYXV0IjoiQVBQTElDQVRJT04iLCJhdWQiOiJMSEdLbndXTGxXSUtlTENNZEJwY0FkSlNSOXNhIiwibmJmIjoxNjkzNTA0NzgzLCJhenAiOiJMSEdLbndXTGxXSUtlTENNZEJwY0FkSlNSOXNhIiwic2NvcGUiOiJkZWZhdWx0IiwiaXNzIjoiaHR0cHM6XC9cLzEwMC43Mi4zNS4yNTo5NDQzXC9vYXV0aDJcL3Rva2VuIiwiZXhwIjoxNjkzNTA4MzgzLCJpYXQiOjE2OTM1MDQ3ODMsImp0aSI6IjdlMDRjZDMwLTUyYzQtNGI1MS04MmQ0LWI1NGQ1YzU2NjQ3ZSJ9.sA9ap2l55g-GeoVIYozi95U1bK_FbLL7I_Q0iU8ro2EAFmreL_IS1mMBTH6XC3MsgHxsAFELj5q-lr_6BsxWbB2QPv_kMjknxLV2poyVQofbHouLzElbdWPRfrXwNTU7186WsNdxaTNLwhhEn6PIOBHWEhaege9MGyTpj1daRK-UmEMtgrwmepyhpL0UgFYWqyAnJEx_qGMIEdJCAOn_JschKJolTYxA9uSzliLuVSFZpf1re5-YPBlnIiCH9DULN3uuY1CFHDEa0NxDrMn4PNgeBe0uDwHZdmjPxmucoo1_ZtjbKPZ7KXwQs_81hmKUiTcguauCBJulcbLNqTuX4w'
+	const fisTemp = 'eyJ4NXQiOiJOemRrWkRjMU9XWmtPVFE0WTJNeE1XUXdOR013WkRjMVkyUXlaakEyWXpjMVl6TTROalZtTlRSaE16SXdZelV3TURVMU9UY3paVFE1T1dFMk9USm1OZyIsImtpZCI6Ik56ZGtaRGMxT1daa09UUTRZMk14TVdRd05HTXdaRGMxWTJReVpqQTJZemMxWXpNNE5qVm1OVFJoTXpJd1l6VXdNRFUxT1RjelpUUTVPV0UyT1RKbU5nX1JTMjU2IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJqb2hubnl0aGFpIiwiYXV0IjoiQVBQTElDQVRJT04iLCJhdWQiOiJMSEdLbndXTGxXSUtlTENNZEJwY0FkSlNSOXNhIiwibmJmIjoxNjkzNTEzNDM2LCJhenAiOiJMSEdLbndXTGxXSUtlTENNZEJwY0FkSlNSOXNhIiwic2NvcGUiOiJkZWZhdWx0IiwiaXNzIjoiaHR0cHM6XC9cLzEwMC43Mi4zNS4yNTo5NDQzXC9vYXV0aDJcL3Rva2VuIiwiZXhwIjoxNjkzNTE3MDM2LCJpYXQiOjE2OTM1MTM0MzYsImp0aSI6IjFlOGNlYTY0LTI5ZDgtNDQ3Zi1iMmEyLWYzY2Y2MTVlYzNjMyJ9.LDhbwHBdEMoHTbWVo49QwC8XhsCzjd9UX0BBqvWmQOhxWmEopUrodiKIXPGXdnPLy-sL6ZuwGIB48HzJDPwLynW7gZ3To35ZAgclN8zMy8FSDa9kpReeNNOKd5lolmF4m4PwJNSSOQD69gaiYFXtSZoC3lcOWqi3H1jez-Hk07JraT_Pm911-rWXKRruo84W7xbRUC9_BVnLzScAoH9UdBbOFmZJCw8USjHcnlqrwHO6GEZPzr1sfZKsW7qVA65txNwRkkihtT5F4cUbpbFnI8bD0yc3jXJuXYWCR5MYGebgiDqr8mRd3aFEMQiQJE0F4iEBcIJFVckNsbNsVOITeg'
+	const body = {
+		'userId': 'johnnythai',
+		'userSecret': 'Pablo209519!'
+	}
+	const requestBody = JSON.stringify(body);
 
 	const options = {
 		method: 'PUT',
@@ -50,16 +64,13 @@ const fetchHorizonToken = async (req: {fisToken: string, body:{userId: string, u
 			'Authorization': `Bearer ${fisTemp}`,
 			'Content-Type': 'application/json'
 		},
-		body: {
-			'userId': FIS_USER_ID,
-		       	'userSecret': FIS_USER_SECRET 
-		},
+		body: requestBody,
 	};
 
 	const auth = await fetchApi(apiUrl, options);
-	// const token = await auth.json();
-	console.log('TOKEN_______________________', auth);
-	return(auth);
+	const token = await auth.json();
+	console.log('TOKEN_______________________', token.jwt);
+	return(token.jwt);
 };
 
 exports.fetchFisToken = fetchFisToken;
