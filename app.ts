@@ -6,7 +6,8 @@ const morgan = require('morgan');
 app.use(morgan('common'));
 
 const router = require('./app/routes/routes');
-const db = require('./db');
+// const db = require('./db');
+// const dbConnection = db();
 
 // Home
 app.use('/', router);
@@ -20,5 +21,6 @@ app.use('/authorization/:token', router);
 // Start the server
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
-	db();
 });
+
+// module.exports = dbConnection;

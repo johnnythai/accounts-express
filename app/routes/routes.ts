@@ -13,8 +13,6 @@ router.get('/', (req: any, res: any) => {
 
 // Authorization tokens
 router.get('/authorization/:token', async (req, res) => {
-	console.log('req object:', req);
-	console.log('re.params:', req.params);
 	const requestedToken = req.params.token;
 	console.log(requestedToken, ' token requested');
 
@@ -25,7 +23,7 @@ router.get('/authorization/:token', async (req, res) => {
 			res.status(200).send(token);
 		} else if (requestedToken === 'horizon') {
 			const token = await fetchHorizonToken(req);
-			console.log(`${requestedToken} token:`, token);
+			// console.log(`${requestedToken} token:`, token);
 			res.status(200).send(token);
 		}
 	} catch (error) {
