@@ -9,7 +9,7 @@ const { fetchFisToken, fetchHorizonToken } = require('../controllers/fetch')
 router.use(cookiesMiddleware());
 
 // Check for fisToken before requesting horizonToken
-router.use('/authorization/horizon', (req, res) => {
+router.use('/authorization/horizon', (req, res, next) => {
 	console.log('checking for fisToken...');
 	const fisToken = req.universalCookies.get('fisToken');
 	if (!fisToken) {
@@ -20,7 +20,7 @@ router.use('/authorization/horizon', (req, res) => {
 });
 
 // Check for horizonToken before making requests to HORIZON API
-horizonRouter.use((req, res) => {
+horizonRouter.use((req, res, next) => {
 	console.log('checking for horizonToken');
 	const horizonToken = req.universalCookies.get('horizonToken');
 	if (!horizonToken) {
