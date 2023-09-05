@@ -5,19 +5,25 @@ const port = 4001;
 const morgan = require('morgan');
 app.use(morgan('common'));
 
-const router = require('./app/routes/routes');
+const authRouter = require('./app/routes/authRoutes');
+const usersRouter = require('./app/routes/usersRoutes');
 const horizonRouter = require('./app/routes/horizonRoutes'); 
 // const db = require('./db');
 // const dbConnection = db();
 
 // Home
-app.use('/', router);
+app.use('/', (req, res) => {
+	res.status(200).send('accounts-express app home for FIS HORIZON API');
+});
 
 // Authentication
-app.use('/login', router);
+app.use('/users', usersRouter);
 
 // Authorization
-app.use('/authorization/:token', router);
+app.use('/authorization', authRouter);
+
+// Horizon
+app.use('/horizon', horizonRouter);
 
 // Start the server
 app.listen(port, () => {
