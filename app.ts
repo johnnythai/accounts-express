@@ -12,7 +12,7 @@ const horizonRouter = require('./app/routes/horizonRoutes');
 // const dbConnection = db();
 
 // Home
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
 	res.status(200).send('accounts-express app home for FIS HORIZON API');
 });
 
