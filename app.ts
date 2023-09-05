@@ -11,11 +11,6 @@ const horizonRouter = require('./app/routes/horizonRoutes');
 // const db = require('./db');
 // const dbConnection = db();
 
-// Home
-app.get('/', (req, res) => {
-	res.status(200).send('accounts-express app home for FIS HORIZON API');
-});
-
 // Authentication
 app.use('/users', usersRouter);
 
@@ -24,6 +19,12 @@ app.use('/authorization', authRouter);
 
 // Horizon
 app.use('/horizon', horizonRouter);
+
+
+//Home
+app.get('/', (req, res) => {
+	res.status(200).send('accounts-express app home for FIS HORIZON API');
+});
 
 // Start the server
 app.listen(port, () => {
