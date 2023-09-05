@@ -3,7 +3,7 @@ const horizonRouter = express.Router();
 const cookiesMiddleware = require('universal-cookie-express');
 
 horizonRouter.get('/', (req, res) => {
-	res.status(200).send('horizon route');
+	res.status(200).send('horizon endpoint');
 });
 
 module.exports = horizonRouter;
