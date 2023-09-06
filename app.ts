@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = 4001;
 
 const helmet = require('helmet');
@@ -12,12 +13,16 @@ const horizonRouter = require('./app/routes/horizonRoutes');
 // const dbConnect = require('./app/models/db');
 // const dbConnection = db();
 
-app.use(helmet());
-app.use(
-	helmet({
-		crossOriginResourcePolicy: { policy: 'same-site' }
-	})
-);
+// app.use(helmet());
+
+const corsOptions = {
+	origin: [
+		'https://johnnythai.dev',
+		'https://fis.johnnythai.dev',
+		'http://localhost:3000',
+	]	
+};
+app.use(cors(corsOptions));
 
 // Authentication
 app.use('/users', usersRouter);

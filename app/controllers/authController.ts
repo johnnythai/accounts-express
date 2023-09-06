@@ -20,14 +20,14 @@ const fetchFisToken = async (req: {}, res: any) => {
 	try {
 		const auth = await fetchApi(apiUrl, options);
 		const token = await auth.json();
-		res.status(200).send(token.access_token);
+		res.status(200).send({'fisToken': token.access_token});
 	} catch {
 		console.error('Fetch error: ', Error);
 		res.status(500).send('Unable to fetch FisToken');	
 	}
 };
 
-const fetchHorizonToken = async (req: {fisToken: string, body:{userId: string, userSecret: string}}, res) => {
+const fetchHorizonToken = async (req: {fisToken: string}, res) => {
 	const apiUrl = process.env.HORIZON_API_URL;
 
 	const options = {
@@ -36,7 +36,7 @@ const fetchHorizonToken = async (req: {fisToken: string, body:{userId: string, u
 			'organization-id': process.env.ORGANIZATION_ID,
 			'uuid': uuidv4(),
 			'source-id': process.env.SOURCE_ID,
-			'Authorization': `Bearer ${req.fisToken}`,
+			'Authorization': `Bearer ${req.headers.fistoken}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
