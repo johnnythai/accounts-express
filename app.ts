@@ -2,14 +2,17 @@ const express = require('express');
 const app = express();
 const port = 4001;
 
+const helmet = require('helmet');
 const morgan = require('morgan');
 app.use(morgan('common'));
 
 const authRouter = require('./app/routes/authRoutes');
 const usersRouter = require('./app/routes/usersRoutes');
 const horizonRouter = require('./app/routes/horizonRoutes'); 
-// const db = require('./db');
+// const dbConnect = require('./app/models/db');
 // const dbConnection = db();
+
+app.use(helmet());
 
 // Authentication
 app.use('/users', usersRouter);
