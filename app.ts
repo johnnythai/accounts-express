@@ -13,6 +13,11 @@ const horizonRouter = require('./app/routes/horizonRoutes');
 // const dbConnection = db();
 
 app.use(helmet());
+app.use(
+	helmet({
+		crossOriginResourcePolicy: { policy: 'same-site' }
+	})
+);
 
 // Authentication
 app.use('/users', usersRouter);
