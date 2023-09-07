@@ -45,18 +45,13 @@ const fetchHorizonToken = async (req: {fisToken: string}, res) => {
 		}),
 	};
 	
-	try{
-		const response = await fetchApi(apiUrl, options);
-
-		if (!response.ok) {
-			res.status(response.status).send(response.statusText);
-		}
-
-		const auth = await response.json();
-		res.status(200).send(auth.jwt);
-	} catch {
-		res.status(500).send('Server Error');
+	const response = await fetchApi(apiUrl, options);
+	if (!response.ok) {
+		res.status(401).send('Not Authorized.')
 	}
+
+	const auth = await response.json();
+	res.status(200).send({'horizonToken': auth.jwt});
 };
 
 exports.fetchFisToken = fetchFisToken;
