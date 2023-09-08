@@ -19,7 +19,7 @@ const corsOptions = {
 	origin: [
 		'https://johnnythai.dev',
 		'https://fis.johnnythai.dev',
-		'http://localhost:3000',
+		'http://localhost:3001',
 	]	
 };
 app.use(cors(corsOptions));
