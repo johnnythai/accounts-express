@@ -25,13 +25,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Authentication
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 
 // Authorization
-app.use('/authorization', authRouter);
+app.use('/api/authorization', authRouter);
 
 // Horizon
-app.use('/horizon', horizonRouter);
+app.use('/api/horizon', horizonRouter);
 
 
 //Home
