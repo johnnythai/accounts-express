@@ -1,11 +1,9 @@
-const { fetchApi } = require('./fetch');
-require('dotenv').config();
-
+const { fetchApi } = require('./fetchApi');
 const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
 
 
 const fetchFisToken = async (req: {}, res: any) => {
-	const apiUrl = process.env.FIS_API_URL; 
 	const base64Creds = Buffer.from(`${process.env.CONSUMER_KEY}:${process.env.CONSUMER_SECRET}`).toString('base64');
 
 	const options = {
@@ -17,19 +15,10 @@ const fetchFisToken = async (req: {}, res: any) => {
 		body: 'grant_type=client_credentials',
 	};
 
-	try {
-		const auth = await fetchApi(apiUrl, options);
-		const token = await auth.json();
-		res.status(200).send({'fisToken': token.access_token});
-	} catch {
-		console.error('Fetch error: ', Error);
-		res.status(500).send('Unable to fetch FisToken');	
-	}
+	await fetchApi(req, res, process.env.FIS_AUTH_API_URL, options);	
 };
 
 const fetchHorizonToken = async (req: {fisToken: string}, res) => {
-	const apiUrl = process.env.HORIZON_API_URL;
-
 	const options = {
 		method: 'PUT',
 		headers: {
@@ -44,17 +33,9 @@ const fetchHorizonToken = async (req: {fisToken: string}, res) => {
 			'userSecret': process.env.FIS_USER_SECRET
 		}),
 	};
-	try {	
-		const response = await fetchApi(apiUrl, options);
-		if (!response.ok) {
-			return res.status(401).send('Not Authorized.')
-		}
-
-		const auth = await response.json();
-		res.status(200).send({'horizonToken': auth.jwt});
-	} catch {
-		res.status(500).send('Server Error');
-	}
+	
+	console.log(process.env.HORIZON_API_URL);
+	await fetchApi(req, res, process.env.HORIZON_AUTH_API_URL, options);
 };
 
 exports.fetchFisToken = fetchFisToken;
