@@ -1,5 +1,6 @@
 const fetchApi = async (req, res, apiUrl: string, options?: {}) => {
-	console.log('Fethcing with options: ', options);
+	console.log(apiUrl);
+	console.log(options);
 	try {
 		const response = await fetch(apiUrl, options);			    
 		console.log(`Status: ${response.status}, Status Text: ${response.statusText}`);
