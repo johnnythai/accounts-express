@@ -8,7 +8,7 @@ const setHorizonApiHeaders = (horizonToken: string, fisToken: string) => {
 		'uuid': uuidv4(),
 		'source-id': process.env.SOURCE_ID,
 		'horizon-authorization': `Bearer ${horizonToken}`,
-		'Content-Type': 'application/json',
+		'accept': 'application/json',
 		'Authorization': `Bearer ${fisToken}`,
 	};
 
@@ -19,8 +19,8 @@ const fetchAccountInfo = async (req, res) => {
 	const applicationCode = req.params.applicationCode;
 	const accountNumber = req.params.accountNumber;
 
-	const horizonToken = req.headers.horizonToken;
-	const fisToken = req.headers.fisToken;
+	const horizonToken = req.headers.horizontoken;
+	const fisToken = req.headers.fistoken;
 
 	const options = {
 		headers: setHorizonApiHeaders(horizonToken, fisToken),
@@ -32,8 +32,8 @@ const fetchAccountInfo = async (req, res) => {
 const fetchCustomerRelationshipSummary = async (req, res) => {
 	const customerId = req.params.customerId;
 
-	const horizonToken = req.headers.horizonToken;
-	const fisToken = req.headers.fisToken;
+	const horizonToken = req.headers.horizontoken;
+	const fisToken = req.headers.fistoken;
 
 	const options = {
 		headers: setHorizonApiHeaders(horizonToken, fisToken),
