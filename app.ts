@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const port = 4001;
+require('dotenv').config()
 
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -40,8 +40,8 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
+app.listen(() => {
+	console.log(`Server is running on port ${process.env.PORT}`);
 });
 
 // module.exports = dbConnection;
