@@ -1,9 +1,15 @@
+const { Request, Response } = require('express');
 const { fetchApi } = require('./fetchApi');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
+interface horizonRequest extends Request {
+	Headers: {
+		fistoken: string
+	}
+}
 
-const fetchFisToken = async (req: {}, res: any) => {
+const fetchFisToken = async (req: Request, res: Response) => {
 	const base64Creds = Buffer.from(`${process.env.CONSUMER_KEY}:${process.env.CONSUMER_SECRET}`).toString('base64');
 
 	const options = {
@@ -18,14 +24,14 @@ const fetchFisToken = async (req: {}, res: any) => {
 	await fetchApi(req, res, process.env.FIS_AUTH_API_URL, options);	
 };
 
-const fetchHorizonToken = async (req: {fisToken: string}, res) => {
+const fetchHorizonToken = async (req: horizonRequest, res: Response) => {
 	const options = {
 		method: 'PUT',
 		headers: {
 			'organization-id': process.env.ORGANIZATION_ID,
 			'uuid': uuidv4(),
 			'source-id': process.env.SOURCE_ID,
-			'Authorization': `Bearer ${req.headers.fistoken}`,
+			'Authorization': `Bearer ${req.Headers.fistoken}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({

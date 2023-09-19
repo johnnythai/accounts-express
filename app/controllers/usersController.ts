@@ -1,16 +1,23 @@
+const { Request, Response } = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+interface UserRequest extends Request {
+	body: {
+		username: string,
+		password: string,
+	}
+}
 
-const register = async (req, res) => {
+const register = async (req: UserRequest, res: Response) => {
 	const { username, password } = req.body;
 	const user = new User ({ username, password });
 	await user.save();
 	res.status(201).send('User registered');	
 };
 
-const login = async (req, res) => {
+const login = async (req: UserRequest, res: Response) => {
 	const { username, password } = req.body;
 	const user = await User.findOne({ username });
 

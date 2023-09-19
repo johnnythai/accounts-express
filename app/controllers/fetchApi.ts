@@ -1,4 +1,6 @@
-const fetchApi = async (req, res, apiUrl: string, options?: {}) => {
+const { Request, Response } = require('express');
+
+const fetchApi = async (req: Request, res: Response, apiUrl: string, options?: {}) => {
 	console.log(apiUrl);
 	console.log(options);
 	try {

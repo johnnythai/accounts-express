@@ -1,7 +1,9 @@
 const express = require('express');
+const { Request, Response } = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config()
+const port = process.env.PORT;
 
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -35,13 +37,13 @@ app.use('/api/horizon', horizonRouter);
 
 
 //Home
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
 	res.status(200).send('accounts-express app home for FIS HORIZON API');
 });
 
 // Start the server
-app.listen(() => {
-	console.log(`Server is running on port ${process.env.PORT}`);
+app.listen(port, () => {
+	console.log(`Server is running on port ${port}`);
 });
 
 // module.exports = dbConnection;

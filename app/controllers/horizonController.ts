@@ -1,6 +1,29 @@
+import {Auth, W} from "mongodb";
+
+const { Request, Response } = require('express');
 const { fetchApi } = require('./fetchApi');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
+
+interface Authentication extends Request {
+	Headers: {
+		horizontoken: string,
+		fistoken: string,
+	}	
+}
+
+interface CustomerRequest extends Authentication {
+	params: {
+		customerId: string,
+	},
+}
+
+interface CustomerAccountRequest extends Authentication {
+	params: {
+		applicationCode: string,
+		accountNumber: string,
+	}
+}
 
 const setHorizonApiHeaders = (horizonToken: string, fisToken: string) => {
 	const horizonApiHeaders = {
@@ -15,25 +38,25 @@ const setHorizonApiHeaders = (horizonToken: string, fisToken: string) => {
 	return horizonApiHeaders;
 };
 
-const fetchAccountInfo = async (req, res) => {
+const fetchAccountInfo = async (req: CustomerAccountRequest, res: Response) => {
 	const applicationCode = req.params.applicationCode;
 	const accountNumber = req.params.accountNumber;
 
-	const horizonToken = req.headers.horizontoken;
-	const fisToken = req.headers.fistoken;
+	const horizonToken = req.Headers.horizontoken;
+	const fisToken = req.Headers.fistoken;
 
 	const options = {
-		headers: setHorizonApiHeaders(horizonToken, fisToken),
+		Headers: setHorizonApiHeaders(horizonToken, fisToken),
 	};
 
 	await fetchApi(req, res, `${process.env.HORIZON_ACCOUNT_AGGREGATION_API_URL}/accounts/${applicationCode}/${accountNumber}`, options);
 };
 
-const fetchCustomerRelationshipSummary = async (req, res) => {
+const fetchCustomerRelationshipSummary = async (req: CustomerRequest, res: Response) => {
 	const customerId = req.params.customerId;
 
-	const horizonToken = req.headers.horizontoken;
-	const fisToken = req.headers.fistoken;
+	const horizonToken = req.Headers.horizontoken;
+	const fisToken = req.Headers.fistoken;
 
 	const options = {
 		headers: setHorizonApiHeaders(horizonToken, fisToken),
