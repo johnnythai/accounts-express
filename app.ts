@@ -1,7 +1,9 @@
-const express = require('express');
+const express  = require('express');
 const { Request, Response } = require('express');
+
 const app = express();
 const cors = require('cors');
+
 require('dotenv').config()
 const port = process.env.PORT;
 
@@ -15,7 +17,8 @@ const horizonRouter = require('./app/routes/horizonRoutes');
 // const dbConnect = require('./app/models/db');
 // const dbConnection = db();
 
-// app.use(helmet());
+app.use(helmet());
+app.use(express.json());
 
 const corsOptions = {
 	origin: [

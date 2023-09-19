@@ -1,14 +1,12 @@
 const express = require('express');
-const { Request, Response } = ('express');
+const { Request, Response } = require('express');
 const horizonRouter = express.Router();
-const cookiesMiddleware = require('universal-cookie-express');
 const { fetchCustomerRelationshipSummary } = require('../controllers/horizonController');
 const { fetchAccountInfo } = require('../controllers/horizonController');
 
 horizonRouter.get('/', (req: Request, res: Response) => {
 	res.status(200).send('horizon endpoint');
 });
-
 // Retreive account info 
 horizonRouter.get('/accounts/:applicationCode/:accountNumber', (req: Request, res: Response) => {
 	console.log('Fetching account info');

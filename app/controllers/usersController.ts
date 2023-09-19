@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-interface UserRequest extends Request {
+interface UserRequest {
 	body: {
 		username: string,
 		password: string,
