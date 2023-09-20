@@ -1,8 +1,8 @@
-const express = require('express');
-const { Request, Response } = require('express');
+import express, { Request, Response } from 'express';
+import { fetchCustomerRelationshipSummary } from '../controllers/horizonController';
+import { fetchAccountInfo } from '../controllers/horizonController';
+
 const horizonRouter = express.Router();
-const { fetchCustomerRelationshipSummary } = require('../controllers/horizonController');
-const { fetchAccountInfo } = require('../controllers/horizonController');
 
 horizonRouter.get('/', (req: Request, res: Response) => {
 	res.status(200).send('horizon endpoint');
@@ -19,6 +19,4 @@ horizonRouter.get('/customers/:customerId/relationship-summary', (req: Request, 
 	fetchCustomerRelationshipSummary(req, res);
 });
 
-
-
-module.exports = horizonRouter;
+export default horizonRouter;

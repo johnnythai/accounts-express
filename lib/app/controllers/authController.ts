@@ -1,7 +1,9 @@
-const { Request, Response } = require('express');
-const { fetchApi } = require('./fetchApi');
-const { v4: uuidv4 } = require('uuid');
-require('dotenv').config();
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import { Request, Response } from 'express';
+import { fetchApi } from './fetchApi';
+import {  v4 as uuidv4 } from 'uuid'; 
 
 interface horizonRequest extends Request {
 	Headers: {
@@ -44,5 +46,4 @@ const fetchHorizonToken = async (req: horizonRequest, res: Response) => {
 	await fetchApi(req, res, process.env.HORIZON_AUTH_API_URL, options);
 };
 
-exports.fetchFisToken = fetchFisToken;
-exports.fetchHorizonToken = fetchHorizonToken;
+export { fetchFisToken, fetchHorizonToken };

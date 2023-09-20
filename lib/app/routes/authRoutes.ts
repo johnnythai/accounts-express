@@ -1,10 +1,7 @@
-const express = require('express');
-const { Request, Response } = require('express');
+import express, { Request, Response } from 'express';
+import { fetchFisToken, fetchHorizonToken } from '../controllers/authController';
+
 const authRouter = express.Router();
-const cookiesMiddleware = require('universal-cookie-express');
-
-const { fetchFisToken, fetchHorizonToken } = require('../controllers/authController')
-
 
 // Home 
 authRouter.get('/', (req: Request, res: Response) => { res.status(200).send('authorization endpoint');
@@ -23,4 +20,4 @@ authRouter.get('/horizon', async (req: Request, res: Response) => {
 	fetchHorizonToken(req, res);
 });
 
-module.exports = authRouter;
+export default authRouter;

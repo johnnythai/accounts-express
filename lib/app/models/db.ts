@@ -1,7 +1,7 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const mongoose = require('mongoose');
-
+import { MongoClient, ServerApiVersion } from 'mongodb';
+import mongoose from 'mongoose';
 require('dotenv').config();
+
 const DB = process.env.DB;
 const MONGODB_USER = process.env.MONGODB_USER;
 const MONGODB_PW = process.env.MONGODB_PW;
@@ -18,7 +18,7 @@ const client = new MongoClient(uri, {
 
 const dbConnect = async () => {
 	try {
-		await mongoose.connect();	
+		await mongoose.connect(uri);	
 		await client.db("admin").command({ ping: 1 });
 		console.log("Pinged your deployment. You successfully connected to MongoDB!");
 	} finally {
@@ -26,4 +26,4 @@ const dbConnect = async () => {
 	};
 };
 
-module.exports = dbConnect;
+export default dbConnect;

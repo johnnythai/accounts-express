@@ -1,9 +1,8 @@
-import {Auth, W} from "mongodb";
-
-const { Request, Response } = require('express');
-const { fetchApi } = require('./fetchApi');
-const { v4: uuidv4 } = require('uuid');
-require('dotenv').config();
+import { Request, Response } from 'express';
+import { fetchApi } from './fetchApi';
+import { v4 as uuidv4 } from 'uuid';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 interface Authentication extends Request {
 	Headers: {
@@ -65,6 +64,4 @@ const fetchCustomerRelationshipSummary = async (req: CustomerRequest, res: Respo
 	await fetchApi(req, res, `${process.env.HORIZON_CUSTOMER_API_URL}/customers/${customerId}/relationship-summary`, options);
 };
 
-
-exports.fetchCustomerRelationshipSummary = fetchCustomerRelationshipSummary;
-exports.fetchAccountInfo = fetchAccountInfo;
+export { fetchCustomerRelationshipSummary, fetchAccountInfo };
