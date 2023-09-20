@@ -3,27 +3,15 @@ import { fetchApi } from './fetchApi.js';
 import { v4 as uuidv4 } from 'uuid';
 import env from '../../env.js';
 
-interface Authentication extends Request {
-	headers: {
-		horizontoken: string,
-		fistoken: string,
-	}	
-}
 
-interface CustomerRequest extends Authentication {
-	params: {
-		customerId: string,
-	},
-}
+const setHorizonApiHeaders = (req: Request, res: Response) => {
+	const horizonToken = req.headers.horizontoken;
+	const fisToken = req.headers.fistoken;
 
-interface CustomerAccountRequest extends Authentication {
-	params: {
-		applicationCode: string,
-		accountNumber: string,
+	if (!horizonToken || !fisToken) {
+		return res.status(401).send('Unauthorized.');
 	}
-}
 
-const setHorizonApiHeaders = (horizonToken: string, fisToken: string) => {
 	const horizonApiHeaders = {
 		'organization-id': env.ORGANIZATION_ID,
 		'uuid': uuidv4(),
@@ -36,29 +24,27 @@ const setHorizonApiHeaders = (horizonToken: string, fisToken: string) => {
 	return horizonApiHeaders;
 };
 
-const fetchAccountInfo = async (req: CustomerAccountRequest, res: Response) => {
+const fetchAccountInfo = async (req: Request, res: Response) => {
 	const applicationCode = req.params.applicationCode;
 	const accountNumber = req.params.accountNumber;
 
-	const horizonToken = req.headers.horizontoken;
-	const fisToken = req.headers.fistoken;
+	if (!applicationCode || !accountNumber) {
+		return res.status(400).send('Bad request.');
+	}
 
-	const options = {
-		Headers: setHorizonApiHeaders(horizonToken, fisToken),
-	};
+	const options = { headers: setHorizonApiHeaders(req, res) };
 
 	await fetchApi(req, res, `${env.HORIZON_ACCOUNT_AGGREGATION_API_URL}/accounts/${applicationCode}/${accountNumber}`, options);
 };
 
-const fetchCustomerRelationshipSummary = async (req: CustomerRequest, res: Response) => {
+const fetchCustomerRelationshipSummary = async (req: Request, res: Response) => {
 	const customerId = req.params.customerId;
 
-	const horizonToken = req.headers.horizontoken;
-	const fisToken = req.headers.fistoken;
+	if (!customerId) {
+		return res.status(400).send('Bad request.');
+	}
 
-	const options = {
-		headers: setHorizonApiHeaders(horizonToken, fisToken),
-	};	
+	const options = { headers: setHorizonApiHeaders(req, res) };	
 	
 	await fetchApi(req, res, `${env.HORIZON_CUSTOMER_API_URL}/customers/${customerId}/relationship-summary`, options);
 };
