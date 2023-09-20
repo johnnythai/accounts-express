@@ -1,10 +1,17 @@
 import express, { Request, Response } from 'express';
-import { fetchFisToken, fetchHorizonToken } from '../controllers/authController';
+import { fetchFisToken, fetchHorizonToken } from '../controllers/authController.js';
 
 const authRouter = express.Router();
 
+interface horizonRequest extends Request {
+	headers: {
+		fistoken?: string
+	}
+}
+
 // Home 
-authRouter.get('/', (req: Request, res: Response) => { res.status(200).send('authorization endpoint');
+authRouter.get('/', (req: Request, res: Response) => { 
+	res.status(200).send('authorization endpoint');
 });
 
 
@@ -20,4 +27,4 @@ authRouter.get('/horizon', async (req: Request, res: Response) => {
 	fetchHorizonToken(req, res);
 });
 
-export default authRouter;
+export { authRouter };

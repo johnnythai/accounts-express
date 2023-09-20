@@ -1,12 +1,9 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import mongoose from 'mongoose';
-require('dotenv').config();
+import env from '../../env.js';
 
-const DB = process.env.DB;
-const MONGODB_USER = process.env.MONGODB_USER;
-const MONGODB_PW = process.env.MONGODB_PW;
 
-const uri = `mongodb+srv://${MONGODB_USER}:${MONGODB_PW}@${DB}.jjzzgzw.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${env.MONGODB_USER}:${env.MONGODB_PW}@${env.DB}.jjzzgzw.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
 	serverApi: {

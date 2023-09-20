@@ -2,12 +2,12 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import authRouter from './app/routes/authRoutes';
-import usersRouter from './app/routes/usersRoutes';
-import horizonRouter from './app/routes/horizonRoutes';
+import { usersRouter } from './app/routes/usersRoutes.js';
+import { authRouter } from './app/routes/authRoutes.js';
+import { horizonRouter } from './app/routes/horizonRoutes.js';
+import env from './env.js';
 // import dbConnect from './app/models/db';
-import * as dotenv from 'dotenv';
-dotenv.config();
+
 
 const app = express();
 
@@ -18,12 +18,12 @@ const corsOptions = {
 		'http://localhost:3001',
 	]	
 };
-app.use(cors<Request>(corsOptions));
+app.use(cors(corsOptions));
 app.use(morgan('common'));
 app.use(helmet());
 app.use(express.json());
 
-const port = process.env.PORT;
+const port = env.PORT;
 // const dbConnection = db();
 
 

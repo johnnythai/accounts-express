@@ -1,18 +1,11 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-
 import { Request, Response } from 'express';
-import { fetchApi } from './fetchApi';
+import { fetchApi } from './fetchApi.js';
 import {  v4 as uuidv4 } from 'uuid'; 
+import env from '../../env.js';
 
-interface horizonRequest extends Request {
-	Headers: {
-		fistoken: string
-	}
-}
 
 const fetchFisToken = async (req: Request, res: Response) => {
-	const base64Creds = Buffer.from(`${process.env.CONSUMER_KEY}:${process.env.CONSUMER_SECRET}`).toString('base64');
+	const base64Creds = Buffer.from(`${env.CONSUMER_KEY}:${env.CONSUMER_SECRET}`).toString('base64');
 
 	const options = {
 		method: 'POST',
@@ -22,28 +15,32 @@ const fetchFisToken = async (req: Request, res: Response) => {
 		},
 		body: 'grant_type=client_credentials',
 	};
-
-	await fetchApi(req, res, process.env.FIS_AUTH_API_URL, options);	
+	
+	await fetchApi(req, res, env.FIS_AUTH_API_URL, options);	
 };
 
-const fetchHorizonToken = async (req: horizonRequest, res: Response) => {
+const fetchHorizonToken = async (req: Request, res: Response) => {
+	if (!req.headers.fistoken) {
+		return res.status(401).send('Unauthorized');
+	}
+
 	const options = {
 		method: 'PUT',
 		headers: {
-			'organization-id': process.env.ORGANIZATION_ID,
+			'organization-id': env.ORGANIZATION_ID,
 			'uuid': uuidv4(),
-			'source-id': process.env.SOURCE_ID,
-			'Authorization': `Bearer ${req.Headers.fistoken}`,
+			'source-id': env.SOURCE_ID,
+			'Authorization': `Bearer ${req.headers.fistoken}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
-			'userId': process.env.FIS_USER_ID,
-			'userSecret': process.env.FIS_USER_SECRET
+			'userId': env.FIS_USER_ID,
+			'userSecret': env.FIS_USER_SECRET
 		}),
 	};
 	
-	console.log(process.env.HORIZON_API_URL);
-	await fetchApi(req, res, process.env.HORIZON_AUTH_API_URL, options);
+	console.log(env.HORIZON_AUTH_API_URL);
+	await fetchApi(req, res, env.HORIZON_AUTH_API_URL, options);
 };
 
 export { fetchFisToken, fetchHorizonToken };

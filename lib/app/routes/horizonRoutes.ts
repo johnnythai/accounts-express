@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { fetchCustomerRelationshipSummary } from '../controllers/horizonController';
-import { fetchAccountInfo } from '../controllers/horizonController';
+import { fetchCustomerRelationshipSummary } from '../controllers/horizonController.js';
+import { fetchAccountInfo } from '../controllers/horizonController.js';
 
 const horizonRouter = express.Router();
 
@@ -19,4 +19,4 @@ horizonRouter.get('/customers/:customerId/relationship-summary', (req: Request, 
 	fetchCustomerRelationshipSummary(req, res);
 });
 
-export default horizonRouter;
+export { horizonRouter };
