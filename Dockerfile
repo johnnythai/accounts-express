@@ -12,9 +12,9 @@ RUN tsc
 # RUN
 FROM node:20
 WORKDIR /app
-COPY --from=build /app/built /app/built
+COPY --from=build /app/lib/built /app/lib/built
 COPY package*.json ./
 RUN npm install --only=production
 ENV PORT=4001
 EXPOSE 4001
-CMD ["node", "built/app.js"]
+CMD ["node", "lib/built/app.js"]
