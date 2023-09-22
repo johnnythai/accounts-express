@@ -1,4 +1,3 @@
-version: '1' 
 services:
   fis-express:
     image: johnnythai04/fis-express
