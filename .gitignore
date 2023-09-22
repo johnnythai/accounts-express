@@ -1,7 +1,5 @@
 *.swp
 .env
 
-*.yml
-
 node_modules/
 built/
