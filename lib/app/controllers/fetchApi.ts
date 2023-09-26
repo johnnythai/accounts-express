@@ -8,6 +8,7 @@ const fetchApi = async (req: Request, res: Response, apiUrl: string, options?: {
 		console.log(`Status: ${response.status}, Status Text: ${response.statusText}`);
 
 		const jsonResponse = await response.json();
+		console.log('Response received: ', jsonResponse);
 		res.status(response.status).send(jsonResponse);
 	} catch {
 		res.status(500).send('Server Error');
