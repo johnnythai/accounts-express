@@ -11,7 +11,7 @@ const fetchApi = async (req: Request, res: Response, apiUrl: string, options?: {
 		if (!response.ok) {
 			const text = await response.text();
 			console.error('API error:', text);
-			return res.state(response.status).send(text);
+			return res.status(response.status).send(text);
 		}
 
 		const jsonResponse = await response.json();
