@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import fetch from 'node-fetch';
 
 const fetchApi = async (req: Request, res: Response, apiUrl: string, options?: {}) => {
 	console.log(apiUrl);
@@ -9,7 +10,7 @@ const fetchApi = async (req: Request, res: Response, apiUrl: string, options?: {
 
 		const jsonResponse = await response.json();
 		console.log('Response received: ', jsonResponse);
-		res.status(response.status).send(jsonResponse);
+		res.status(response.status).json(jsonResponse);
 	} catch {
 		res.status(500).send('Server Error');
 	}
