@@ -3,12 +3,6 @@ import { fetchFisToken, fetchHorizonToken } from '../controllers/authController.
 
 const authRouter = express.Router();
 
-interface horizonRequest extends Request {
-	headers: {
-		fistoken?: string
-	}
-}
-
 // Home 
 authRouter.get('/', (req: Request, res: Response) => { 
 	res.status(200).send('authorization endpoint');

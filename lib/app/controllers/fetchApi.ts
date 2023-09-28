@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-const fetchApi = async (req: Request, res: Response, apiUrl: string, options?: RequestInit) => {
+const fetchApi = async (req: Request, res: Response, apiUrl: string, options?: {}) => {
 	console.log(apiUrl);
 	console.log(options);
 	try {
