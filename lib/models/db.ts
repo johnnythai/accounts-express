@@ -1,6 +1,6 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import mongoose from 'mongoose';
-import env from '../../env.js';
+import env from '../env.js';
 
 
 const uri = `mongodb+srv://${env.MONGODB_USER}:${env.MONGODB_PW}@${env.DB}.jjzzgzw.mongodb.net/?retryWrites=true&w=majority`;

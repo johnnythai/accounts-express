@@ -2,9 +2,9 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { usersRouter } from './app/routes/usersRoutes.js';
-import { authRouter } from './app/routes/authRoutes.js';
-import { horizonRouter } from './app/routes/horizonRoutes.js';
+import { usersRouter } from './routes/usersRoutes.js';
+import { authRouter } from './routes/authRoutes.js';
+import { horizonRouter } from './routes/horizonRoutes.js';
 import env from './env.js';
 // import dbConnect from './app/models/db';
 

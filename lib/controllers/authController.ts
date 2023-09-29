@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { fetchApi } from './fetchApi.js';
 import {  v4 as uuidv4 } from 'uuid'; 
-import env from '../../env.js';
+import env from '../env.js';
 
 
 const fetchFisToken = async (req: Request, res: Response) => {
