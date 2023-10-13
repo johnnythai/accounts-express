@@ -14,4 +14,4 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - NODE_ENV=prod
+      - REACT_APP_ENV=production
