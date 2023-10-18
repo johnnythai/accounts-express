@@ -7,11 +7,7 @@ services:
       - "4001:4001"
     env_file:
       - .env
-    environment:
-      - NODE_ENV=production
   fis-webapp:
     image: johnnythai04/fis-webapp
     ports:
       - "3001:3001"
-    environment:
-      - REACT_APP_API_URL=https://fis.johnnythai.dev

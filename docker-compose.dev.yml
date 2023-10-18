@@ -10,8 +10,8 @@ services:
     environment:
       - NODE_ENV=development
   fis-webapp:
-    image: johnnythai04/fis-webapp
-    ports:
-      - "3001:3001"
-    environment:
-      - REACT_APP_API_URL=http://localhost:4001
+    build:
+      context: ../fis-webapp
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=http://localhost:4001
