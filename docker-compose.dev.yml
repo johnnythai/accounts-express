@@ -13,8 +13,8 @@ services:
     build:
       context: ../fis-webapp
       dockerfile: Dockerfile
-    image: johnnthai04/fis-webapp:lastest
+      args:
+        - REACT_APP_API_URL=http://localhost:4001 
+    image: johnnthai04/fis-webapp:dev
     ports:
       - "3001:3001"
-    environment:
-      - REACT_APP_API_URL=http://localhost:4001
