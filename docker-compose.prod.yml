@@ -8,6 +8,6 @@ services:
     env_file:
       - .env
   fis-webapp:
-    image: johnnythai04/fis-webapp
+    image: johnnythai04/fis-webapp:prod
     ports:
       - "3001:3001"
